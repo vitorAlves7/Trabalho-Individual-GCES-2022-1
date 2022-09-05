@@ -13,3 +13,18 @@ services:
       - var/lib/postegresql/data
     expose:
       - "5432"
+  back:
+    container_name: library_back
+    build:
+      context: ./library_back
+      dockerfile: Dockerfile
+    restart: always
+    command: sh entrypoint.sh
+    volumes:
+      - .:/library_back
+    ports:
+      - "8000:8000"
+    env_file:
+      - library_back/db.env
+    depends_on:
+      - db
